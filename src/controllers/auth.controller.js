@@ -95,22 +95,7 @@ const login = (req, res) => {
   };
 };
 
-const getUser = (req, res) => {
-  try {
-    User.findById(req.body.id).select('-password')
-      .then((quests) => {
-        return response.successResponse(res, quests);
-      })
-      .catch((err) => {
-        return response.errorResponse(res, err.message);
-      });
-  } catch (err) {
-    return response.errorResponse(res, err);
-  }
-};
-
 module.exports = {
   register,
-  login,
-  getUser
+  login
 }
