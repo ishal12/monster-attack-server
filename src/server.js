@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const logger = require('./config/logger');
 
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
@@ -21,14 +22,14 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 mongoose.connection.on('connected', () => {
     if (process.env.NODE_ENV !== 'test') {
-        console.log('MonggoDB running', process.env.MONGODB_URL);
+        logger.info('MonggoDB running', process.env.MONGODB_URL);
     }
 });
 mongoose.connection.on('disconnected', function () {
-    console.log('Mongoose default connection disconnected');
+    logger.info('Mongoose default connection disconnected');
 });
 mongoose.connection.off('error', (err) => {
-    console.error('MonggoDB error:', err.message);
+    logger.error('MonggoDB error:', err.message);
 });
 
 // Route Prefixes
@@ -47,7 +48,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(process.env.API_PORT, () => {
-    console.log('API running http://localhost:' + process.env.API_PORT);
+    logger.info('API running http://localhost:' + process.env.API_PORT);
 });
 
 module.exports = app;
